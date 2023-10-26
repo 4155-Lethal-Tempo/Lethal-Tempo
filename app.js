@@ -15,6 +15,8 @@ app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
 
+app.use(express.static('public'));
+
 // This page contains a link that sends you to the Spotify login page
 app.get('/', (req, res) => {
     res.render('index.ejs');
@@ -127,7 +129,7 @@ const fetch = require('node-fetch');
 app.get('/top-tracks', async (req, res) => {
   res.redirect('/topTracks');
   //localStorage.getItem('access_token')
-  let accessToken = 'BQBu7ZkdKaKhZP6mEeLK4FZ71mTBB7eUIdGk2dmbRyqHBuYARw5gpaahn6GvevKjTUC6zyT4GMp1_G1ubL2S-HRQfRqy11dxuNSgqGMHyb1efIiKKaQcgGwL_erNzK2xs38wVYnVRFgEYLW2E9Y9HPh-xkEb7bZIIO1fDkYIc4DhTuW8rwgCW0vvzto3K3YUUB1mQGaAWv9QR0-ApE1Z7rpqnz3r443Vuvf1a3TMA6bBUivF_0uwNlvC_hiu856O1nYNkZAt';
+  let accessToken = 'BQC1UjKZA_-QudIOnm2mM8Qi3F4ry5YREv4TxM8TRLTdMolgAzFYMWQn7v3y462QBm9EjFUuatfiAuEFgnvC05yHB6g3l3nCx3sxIp3-_WNZMCReADqmmeEiSVjEc2uPPRagLklnV6eiAvNVOf8eqh1L5-H_f56MiX330fJR9Udwg70Vvv0emsEzxUvN06-momG07E_ca4sM4fBXxL2nU0jP-PMq02ygR-Fom-mMI9mlLyrM-8vLiv1x_cIZJkjF0z2wmyTJ';
   const token = accessToken;
   async function fetchWebApi(endpoint, method, body) {
     const res = await fetch(`https://api.spotify.com/${endpoint}`, {
