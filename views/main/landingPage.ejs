@@ -1,3 +1,29 @@
-<div>
-    <p>Landing page</p>
-</div>
+<%- include('../partials/header.ejs')%>
+    <!-- <link rel="stylesheet" type="text/css" href="../partials/style.css" /> -->
+    <p style="display:flex; justify-content: center;">Landing page</p>
+    <div style="display: flex; justify-content: space-evenly; align-items: center">
+        <input type="button" value="Top Tracks" onclick="msg()" ,
+            style="border:5px solid #1ED760; border-radius: 25%; background-color: #1ED760;">
+        <input type="button" value="Top Podcasts" onclick="msg()" ,
+            style="border:5px solid #1ED760; border-radius: 25%; background-color: #1ED760;">
+        <input type="button" value="Rated Tracks" onclick="msg()" ,
+            style="border:5px solid #1ED760; border-radius: 25%; background-color: #1ED760;">
+        <input type="button" value="Rated Podcasts" onclick="msg()" ,
+            style="border:5px solid #1ED760; border-radius: 25%; background-color: #1ED760;">
+        <input type="button" value="Friends" onclick="msg()" ,
+            style="border:5px solid #1ED760; border-radius: 25%; background-color: #1ED760;">
+        <!-- <div style="border:5px solid #1ED760">Top Podcasts</div>
+    <div style="border:5px solid #1ED760">Rated Tracks</div>
+    <div style="border:5px solid #1ED760">Rated Podcasts</div>
+    <div style="border:5px solid #1ED760">Friends</div> -->
+    </div>
+    <div style="display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; ">
+        <br>
+        <br>
+        <p>View Your most listen to tracks or Podcasts and filter by artist or genre.</p><br>
+        <p>Look at what your friends listen to and take a look at their playlists.</p><br>
+        <p>See what songs are being played and liked by other users on Lethal Tempo.</p><br>
+        <p>View comments from other users on songs and podcasts.</p><br>
+    </div>
+
+    <%- include('../partials/footer.ejs')%>
