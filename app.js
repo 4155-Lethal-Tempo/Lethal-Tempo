@@ -10,6 +10,18 @@ const app = express();
 const querystring = require('node:querystring');
 require('dotenv').config();
 const port = 8084;
+const fs = require('fs')
+
+
+
+
+
+
+
+
+
+
+
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
@@ -36,10 +48,6 @@ app.get('/login', (req, res) => {
       redirect_uri: process.env.REDIRECT_URI,
       state: state
     }));
-});
-
-app.get('/logout', (req, res) => {
-  res.render('/');
 });
 
 // This is the callback page that is called after you login
@@ -73,11 +81,16 @@ app.get('/callback', async (req, res) => {
     res.redirect('/home');
 });
 
+
+
 app.get('/home', (req, res) => {
     res.render('main/landingPage.ejs');
 });
 app.get('/topTracks', (req, res) => {
   res.render('main/topTracks.ejs');
+});
+app.get('/topPodcasts', (req, res) => {
+  res.render('main/topPodcasts.ejs');
 });
 
 var access_token;
@@ -121,10 +134,20 @@ function generateRandomString(length) {
 }
 
 
+if (typeof localStorage === "undefined" || localStorage === null) {
+  var LocalStorage = require('node-localstorage').LocalStorage;
+  localStorage = new LocalStorage('./scratch');
+}
+
+localStorage.setItem('myFirstKey', 'myFirstValue');
+console.log(localStorage.getItem('myFirstKey'));
+const fetch = require('node-fetch');
+
+/*
 app.get('/top-tracks', async (req, res) => {
   res.redirect('/topTracks');
   //localStorage.getItem('access_token')
-  let accessToken = 'BQCJU0P-0JSm3ZgeJ1YszsutF7ldLRW9I7CsGJIEC7BY7G8jtqg8cfWMv1heyhj6XcSrcDDJikMOtwg5Y9hKhO7k1zE_lt4F7jYGxWwN1FpQTscg2LbMxuE8CUOzs2YyIXNq-amGvLej-YO6plZUS_gA9LP1RNTf-oalpzlwBugVbNSQS3ZncI-cx4MsxPdBiI4eodwNeLNSPoUzxrFXG20uLINVt8NnbkGrWPn80O6H4g_FlG-zUCYSgx2C6dpD3uav5GWo';
+  let accessToken = 'BQDMGe4NauwIasjWNfN3bMKjGn3psRaYm4kqOiAA0TG9xxpEk8Bu6unAtLIAVSBmNSzh3bAcSf0xfqrWS4L9OHqlcyAYEeqBPASIKMeW1RskA2uYLO7RoQKvez4ov-LaYE83EF3hyUKYU5YhS90B5PFWApBMEaL7Ym8suM8pohDJh9kgtWJLR_xCU9ko86VWe6Em-JOq9eAkAN8NPChpdqA5PybNOPudEtIACFkX-ZZoJSL67yzRShPwyVWdSURXCXo';
   const token = accessToken;
   async function fetchWebApi(endpoint, method, body) {
     const res = await fetch(`https://api.spotify.com/${endpoint}`, {
@@ -136,13 +159,18 @@ app.get('/top-tracks', async (req, res) => {
     });
     return await res.json();
   }
+
   
+
   //long term(all time) most listened to songs
   async function getTopTracksLong(){
     return (await fetchWebApi(
       'v1/me/top/tracks?time_range=long_term&limit=25', 'GET'
     )).items;
   }
+  
+
+
   
   const topTracksLong = await getTopTracksLong();
   console.log(
@@ -180,6 +208,125 @@ app.get('/top-tracks', async (req, res) => {
       ({name, artists}) =>
         `${name} by ${artists.map(artist => artist.name).join(', ')}`
     )
+    
   );
 
+//document.getElementById("name").innerHTML = 'JAJAJA';
+
+
+//creates json for top tracks short
+ const saveDataShort = (topTracksShort) =>{
+    const finished = (error) =>{
+      if(error){
+        console.error(error)
+        return;
+      }
+    }
+ 
+
+ const jsonData = JSON.stringify(topTracksShort)
+ fs.writeFile('topTracksShort.json',jsonData,finished)
+  }
+  saveDataShort(topTracksShort)
+
+
+//creates json for top tracks medium
+  const saveDataMedium = (topTracksMedium) =>{
+    const finished = (error) =>{
+      if(error){
+        console.error(error)
+        return;
+      }
+    }
+ 
+
+ const jsonData = JSON.stringify(topTracksMedium)
+ fs.writeFile('topTracksMedium.json',jsonData,finished)
+  }
+  saveDataMedium(topTracksMedium)
+
+//creates json for top tracks medium
+const saveDataLong = (topTracksLong) =>{
+  const finished = (error) =>{
+    if(error){
+      console.error(error)
+      return;
+    }
+  }
+
+
+const jsonData = JSON.stringify(topTracksLong)
+fs.writeFile('topTracksLong.json',jsonData,finished)
+//console.log(jsonData.album.name)
+}
+saveDataLong(topTracksLong)
+
+
+}); */
+
+  
+  
+  app.get('/top-podcasts', async (req, res) => {
+    res.redirect('/topPodcasts');
+    
   });
+
+  // --------Cesar trash code ------//
+  app.get('/top-tracks', async (req, res) => {
+    let accessToken = 'BQDFZm5But9DIP0bMUkQSTPRq0v4QiK8k7sclhfq5trc54b4LSKDFMFbD-T2RiaWEeR3KyXrlaqp9jz78AfrWZSMmh-9V1QTTF4AJssg_x_IRCxZlKknLbtKrTVjF-AvjmjE_UkbYkjo0QTnpBrqylJEnXzu0a7CGhEbRAkImSQiZNKkkLA_UkBuf0V3eyQ7UruebBOqaGY9N-Cx8eZpZZyjzKzl7PjgO08o0Du006PDewQXMqKGM3TAuodHCSnhnMQ';
+  try {
+    const response = await fetch('https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=50',{
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      }
+
+      
+    });
+
+    const shortTermResponse = await fetch('https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=50', {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      }
+    });
+
+    const mediumTermResponse = await fetch('https://api.spotify.com/v1/me/top/tracks?time_range=medium_term&limit=50', {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      }
+    });
+
+  
+
+    if (response.status === 200 && shortTermResponse.status === 200 && mediumTermResponse.status === 200) {
+      const data = await response.json();
+      const shortTermData = await shortTermResponse.json();
+      const mediumTermData = await mediumTermResponse.json();
+      
+      // Log the response data for debugging
+      console.log(mediumTermData);
+      console.log(shortTermData);
+      console.log(data); 
+      res.render('main/topTracks.ejs', { tracks: data, shortTermTracks: shortTermData, mediumTermTracks: mediumTermData});
+    } else {
+      res.send('Failed to retrieve top tracks. Status code: ' + response.status);
+    }
+
+    /*
+    if (shortTermResponse.status === 200) {
+      const data = await shortTermResponse.json();
+      console.log(data); // Log the response data for debugging
+      res.render('main/topTracks.ejs', { trackss: data });
+    } else {
+      res.send('Failed to retrieve top tracks. Status code: ' + shortTermResponse.status);
+    }
+    */
+
+
+  } catch (error) {
+    res.send('An error occurred: ' + error.message);
+  }
+});
+
+
+
+  // -------------------------------//
